@@ -1,20 +1,18 @@
 import pandas as pd
 
-df = pd.read_csv('sales.csv')
+df = pd.read_csv('covid_data.csv')
 
-print("Datasetning birinchi 5 qatori:")
-print(df.head()) 
+df['Date_reported'] = pd.to_datetime(df['Date_reported'], errors='coerce')
 
-print("\nStatistikalar:")
-print(df.describe())  
-avg_unit_price = df['unit_price'].mean()
-print(f"O‘rtacha narx: {avg_unit_price}")
+print(df[['New_cases', 'Cumulative_cases', 'New_deaths', 'Cumulative_deaths']].describe())
 
-df['total_sales'] = df['unit_price'] * df['quantity'] 
-total_sales = df['total_sales'].sum()
-print(f"Jami savdo hajmi: {total_sales}")
+print(df[['New_cases', 'Cumulative_cases', 'New_deaths', 'Cumulative_deaths']].agg(['min', 'max']))
 
+top_new_cases = df[['Country', 'New_cases']].sort_values(by='New_cases', ascending=False).head(10)
+print(top_new_cases)
 
-top_selling_products = df.groupby('product_name')['quantity'].sum().sort_values(ascending=False).head(5)
-print("\nEng ko‘p sotilgan 5 mahsulot:")
-print(top_selling_products)
+top_new_deaths = df[['Country', 'New_deaths']].sort_values(by='New_deaths', ascending=False).head(10)
+print(top_new_deaths)
+
+average_new_cases_by_country = df.groupby('Country')['New_cases'].mean().sort_values(ascending=False).head(10)
+print(average_new_cases_by_country)
