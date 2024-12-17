@@ -1,41 +1,21 @@
-import matplotlib.pyplot as plt
-import numpy as np
+from PIL import Image
+import os
 
-x = np.linspace(0, 10, 100)
+rasmlar = ["rasm1.jpg", "rasm2.jpg", "rasm3.jpg"]
 
-y = np.sin(x)
-
-plt.plot(x, y, color='blue', linewidth=2, label='Sinus(x)')
-
-plt.title("Sinus Funksiyasining Grafiki")
-plt.xlabel("X qiymatlari")
-plt.ylabel("Y qiymatlari")
-
-plt.grid(True)
-
-
-plt.legend()
-
-plt.show()
-
-
-
-
-
-import matplotlib.pyplot as plt
-import numpy as np
-
-x = np.random.uniform(0, 10, 50) 
-y = np.random.uniform(0, 10, 50) 
-
-plt.scatter(x, y, color='blue', edgecolors='purple', s=80, label="Nuqtalar")
-
-plt.title("Tasodifiy Nuqtalar Scatter Grafiki")
-plt.xlabel("X qiymatlari")
-plt.ylabel("Y qiymatlari")
-
-plt.grid(True)
-
-plt.legend()
-
-plt.show()
+for rasm_nomi in rasmlar:
+    try:
+       
+        rasm = Image.open(rasm_nomi)
+        
+        oq_qora_rasm = rasm.convert("L")
+        
+        yangi_nomi = f"oq_qora_{rasm_nomi}"
+        
+        oq_qora_rasm.save(yangi_nomi)
+        
+        oq_qora_rasm.show()
+        
+        print(f"{rasm_nomi} -> {yangi_nomi} ga aylantirildi va ko'rsatildi.")
+    except Exception as e:
+        print(f"{rasm_nomi} fayli bilan muammo: {e}")
